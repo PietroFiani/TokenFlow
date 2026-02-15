@@ -54,9 +54,11 @@ function handleKeyPress(event: KeyboardEvent) {
 <template>
   <div :class="$style.container">
     <div :class="$style.inputWrapper">
-      <DsInput
+      <FieldText
         v-model="inputValue"
+        label="Color Value"
         placeholder="Enter color (HEX, RGB, HSL, or OKLCH)"
+        hint="Supports HEX, RGB, HSL, and OKLCH formats"
         :error="!!errorMessage"
         :error-message="errorMessage"
         @blur="validateInput"

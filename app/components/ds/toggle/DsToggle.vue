@@ -30,13 +30,13 @@ const emit = defineEmits<{
 .toggle {
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--spacing-3);
   cursor: pointer;
   user-select: none;
 }
 
 .toggle.disabled {
-  opacity: 0.5;
+  opacity: var(--opacity-40);
   cursor: not-allowed;
 }
 
@@ -51,7 +51,7 @@ const emit = defineEmits<{
   position: relative;
   width: 44px;
   height: 24px;
-  background-color: #d1d5db;
+  background-color: var(--color-background-neutral-muted-pressed);
   border-radius: 24px;
   transition: background-color 0.2s;
 }
@@ -63,13 +63,13 @@ const emit = defineEmits<{
   height: 18px;
   left: 3px;
   top: 3px;
-  background-color: white;
+  background-color: var(--color-white);
   border-radius: 50%;
   transition: transform 0.2s;
 }
 
 .checkbox:checked + .slider {
-  background-color: #3b82f6;
+  background-color: var(--color-background-brand-primary-inverse-default);
 }
 
 .checkbox:checked + .slider::before {
@@ -77,12 +77,12 @@ const emit = defineEmits<{
 }
 
 .checkbox:focus + .slider {
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  box-shadow: var(--shadow-10);
 }
 
 .label {
-  font-size: 0.9375rem;
-  color: #374151;
-  font-weight: 500;
+  font-size: var(--font-size-md);
+  color: var(--color-text-neutral-muted-default);
+  font-weight: var(--font-weight-medium);
 }
 </style>

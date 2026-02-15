@@ -32,8 +32,8 @@ withDefaults(defineProps<{
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
-  border-radius: 0.5rem;
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--border-radius-md);
   cursor: pointer;
   transition: all 0.15s ease;
   border: none;
@@ -41,82 +41,82 @@ withDefaults(defineProps<{
 }
 
 .button:disabled {
-  opacity: 0.5;
+  opacity: var(--opacity-40);
   cursor: not-allowed;
 }
 
 /* Sizes */
 .sm {
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
+  padding: var(--spacing-2) var(--spacing-4);
+  font-size: var(--font-size-sm);
 }
 
 .md {
-  padding: 0.75rem 1.5rem;
-  font-size: 0.9375rem;
+  padding: var(--spacing-3) var(--spacing-6);
+  font-size: var(--font-size-md);
 }
 
 .lg {
-  padding: 1rem 2rem;
-  font-size: 1rem;
+  padding: var(--spacing-4) var(--spacing-8);
+  font-size: var(--font-size-lg);
 }
 
 /* Variants */
 .primary {
-  background-color: #3b82f6;
-  color: white;
+  background-color: var(--color-background-brand-primary-inverse-default);
+  color: var(--color-text-neutral-inverse-default);
 }
 
 .primary:hover:not(:disabled) {
-  background-color: #2563eb;
+  background-color: var(--color-background-brand-primary-inverse-hover);
 }
 
 .secondary {
-  background-color: white;
-  color: #374151;
-  border: 1px solid #d1d5db;
+  background-color: var(--color-white);
+  color: var(--color-text-neutral-muted-default);
+  border: var(--border-width-thin) solid var(--color-border-neutral-base-default);
 }
 
 .secondary:hover:not(:disabled) {
-  background-color: #f9fafb;
-  border-color: #9ca3af;
+  background-color: var(--color-background-neutral-base-hover);
+  border-color: var(--color-border-neutral-base-hover);
 }
 
 .outline {
   background-color: transparent;
-  color: #3b82f6;
-  border: 1px solid #3b82f6;
+  color: var(--color-text-brand-primary-default);
+  border: var(--border-width-thin) solid var(--color-border-brand-primary-default);
 }
 
 .outline:hover:not(:disabled) {
-  background-color: #eff6ff;
+  background-color: var(--color-background-brand-primary-default);
 }
 
 .ghost {
   background-color: transparent;
-  color: #6b7280;
+  color: var(--color-text-neutral-subtle-default);
   border: none;
 }
 
 .ghost:hover:not(:disabled) {
-  background-color: #f3f4f6;
-  color: #374151;
+  background-color: var(--color-background-neutral-muted-default);
+  color: var(--color-text-neutral-muted-default);
 }
 
 .toggle {
-  background-color: #f3f4f6;
-  color: #6b7280;
+  background-color: var(--color-background-neutral-muted-default);
+  color: var(--color-text-neutral-subtle-default);
   border: none;
 }
 
 .toggle:hover:not(:disabled) {
-  background-color: #e5e7eb;
-  color: #374151;
+  background-color: var(--color-background-neutral-muted-hover);
+  color: var(--color-text-neutral-muted-default);
 }
 
 .toggle.active {
-  background-color: #3b82f6;
-  color: white;
-  font-weight: 600;
+  background-color: var(--color-background-brand-primary-inverse-default);
+  color: var(--color-text-neutral-inverse-default);
+  font-weight: var(--font-weight-semibold);
 }
 </style>

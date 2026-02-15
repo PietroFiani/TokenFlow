@@ -1,4 +1,13 @@
 <script setup lang="ts">
+/**
+ * @deprecated Use FieldText, FieldNumber, or FieldSelect instead.
+ * This component will be removed in a future version.
+ *
+ * Migration guide:
+ * - Text inputs: Use FieldText
+ * - Number inputs: Use FieldNumber
+ * - Dropdowns: Use FieldSelect
+ */
 withDefaults(defineProps<{
   modelValue: string
   placeholder?: string
@@ -38,41 +47,41 @@ const emit = defineEmits<{
 .wrapper {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: var(--spacing-1);
 }
 
 .input {
-  padding: 0.75rem 1rem;
-  font-size: 0.9375rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.5rem;
-  background: white;
-  color: #111827;
+  padding: var(--spacing-3) var(--spacing-4);
+  font-size: var(--font-size-md);
+  border: var(--border-width-thin) solid var(--color-border-neutral-base-default);
+  border-radius: var(--border-radius-md);
+  background: var(--color-white);
+  color: var(--color-text-neutral-base-default);
   transition: all 0.15s ease;
   width: 100%;
 }
 
 .input:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: var(--color-border-brand-primary-default);
+  box-shadow: var(--shadow-10);
 }
 
 .input::placeholder {
-  color: #9ca3af;
+  color: var(--color-text-neutral-subtle-default);
 }
 
 .input.error {
-  border-color: #ef4444;
+  border-color: var(--color-border-intent-error-default);
 }
 
 .input.error:focus {
-  border-color: #ef4444;
+  border-color: var(--color-border-intent-error-default);
   box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 }
 
 .errorMessage {
-  font-size: 0.875rem;
-  color: #ef4444;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-intent-error-default);
 }
 </style>

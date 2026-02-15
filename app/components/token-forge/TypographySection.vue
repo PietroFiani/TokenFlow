@@ -13,6 +13,13 @@ const emit = defineEmits<{
 
 const fallbackOptions = Object.keys(FONT_FALLBACK_STACKS);
 
+const fallbackSelectOptions = computed(() =>
+  fallbackOptions.map(name => ({
+    value: name,
+    label: name
+  }))
+);
+
 function updateFont(index: number, field: keyof FontFamilyEntry, value: string | boolean | string[]) {
   const updated = props.fonts.map((f, i) => {
     if (i !== index) return { ...f };
@@ -65,22 +72,16 @@ const fontPreview = computed(() => {
 
       <div v-if="font.enabled" :class="$style.rowContent">
         <div :class="$style.inputGroup">
-          <input
-            type="text"
-            :class="$style.input"
-            :value="font.familyName"
+          <FieldText
+            :model-value="font.familyName"
             placeholder="e.g. DM Sans, PP Neue Montreal"
-            @input="updateFont(index, 'familyName', ($event.target as HTMLInputElement).value)"
+            @update:model-value="updateFont(index, 'familyName', $event)"
           />
-          <select
-            :class="$style.select"
-            :value="getActiveFallbackName(index)"
-            @change="updateFallback(index, ($event.target as HTMLSelectElement).value)"
-          >
-            <option v-for="opt in fallbackOptions" :key="opt" :value="opt">
-              {{ opt }}
-            </option>
-          </select>
+          <FieldSelect
+            :model-value="getActiveFallbackName(index)"
+            :options="fallbackSelectOptions"
+            @update:model-value="updateFallback(index, String($event || ''))"
+          />
         </div>
 
         <div v-if="fontPreview[index]" :class="$style.preview">
@@ -160,35 +161,12 @@ const fontPreview = computed(() => {
 .inputGroup {
   display: flex;
   gap: 0.5rem;
+  align-items: flex-start;
 }
 
-.input {
+.inputGroup > * {
   flex: 1;
-  padding: 0.625rem 0.75rem;
-  font-size: 0.875rem;
-  border: 2px solid #e5e7eb;
-  border-radius: 0.5rem;
-  transition: border-color 0.2s;
-}
-
-.input:focus {
-  outline: none;
-  border-color: #3b82f6;
-}
-
-.select {
-  padding: 0.625rem 0.75rem;
-  font-size: 0.875rem;
-  border: 2px solid #e5e7eb;
-  border-radius: 0.5rem;
-  background: white;
-  cursor: pointer;
   min-width: 140px;
-}
-
-.select:focus {
-  outline: none;
-  border-color: #3b82f6;
 }
 
 .preview {

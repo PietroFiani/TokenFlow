@@ -31,25 +31,25 @@ const paddingClasses: Record<string, string> = {
 
 <style module>
 .card {
-  background: white;
-  border-radius: 0.75rem;
+  background: var(--color-white);
+  border-radius: var(--border-radius-lg);
 }
 
 .shadow {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-5);
 }
 
 .title {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #6b7280;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-neutral-subtle-default);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin: 0 0 1rem 0;
+  margin: 0 0 var(--spacing-4) 0;
 }
 
 .paddingNone { padding: 0; }
-.paddingSm { padding: 1rem; }
-.paddingMd { padding: 1.5rem; }
-.paddingLg { padding: 2rem; }
+.paddingSm { padding: var(--spacing-4); }
+.paddingMd { padding: var(--spacing-6); }
+.paddingLg { padding: var(--spacing-8); }
 </style>

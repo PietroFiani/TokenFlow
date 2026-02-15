@@ -75,27 +75,17 @@ const hasValidOrder = computed(() => {
 
       <!-- Breakpoint Inputs -->
       <div :class="$style.grid">
-        <div
+        <FieldNumber
           v-for="(bp, index) in breakpointsConfig.breakpoints"
           :key="bp.name"
-          :class="$style.inputRow"
-        >
-          <label :class="$style.label">
-            {{ breakpointLabels[bp.name] }}
-          </label>
-          <div :class="$style.inputWrapper">
-            <input
-              type="number"
-              :class="$style.input"
-              :value="bp.value"
-              min="1"
-              max="9999"
-              step="1"
-              @input="updateBreakpoint(index, parseInt(($event.target as HTMLInputElement).value) || 0)"
-            />
-            <span :class="$style.unit">px</span>
-          </div>
-        </div>
+          :model-value="bp.value"
+          :label="breakpointLabels[bp.name]"
+          unit-text="px"
+          :min="1"
+          :max="9999"
+          :step="1"
+          @update:model-value="updateBreakpoint(index, $event || 0)"
+        />
       </div>
 
       <!-- Reset Button -->
@@ -159,50 +149,6 @@ const hasValidOrder = computed(() => {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
-}
-
-.inputRow {
-  display: flex;
-  flex-direction: column;
-  gap: 0.375rem;
-}
-
-.label {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #374151;
-}
-
-.inputWrapper {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: #f9fafb;
-  border: 2px solid #e5e7eb;
-  border-radius: 0.5rem;
-  padding: 0.5rem 0.75rem;
-}
-
-.input {
-  flex: 1;
-  border: none;
-  background: transparent;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #111827;
-  outline: none;
-  width: 100%;
-}
-
-.input::-webkit-inner-spin-button,
-.input::-webkit-outer-spin-button {
-  opacity: 1;
-}
-
-.unit {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #9ca3af;
 }
 
 .resetBtn {

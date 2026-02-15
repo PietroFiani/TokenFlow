@@ -24,31 +24,31 @@ withDefaults(defineProps<{
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.375rem 0.75rem;
-  background-color: #f3f4f6;
-  border-radius: 0.375rem;
-  font-weight: 500;
+  gap: var(--spacing-2);
+  padding: var(--spacing-1) var(--spacing-3);
+  background-color: var(--color-background-neutral-muted-default);
+  border-radius: var(--border-radius-sm);
+  font-weight: var(--font-weight-medium);
 }
 
 .sm {
-  padding: 0.25rem 0.5rem;
-  font-size: 0.75rem;
+  padding: var(--spacing-1) var(--spacing-2);
+  font-size: var(--font-size-xs);
 }
 
 .md {
-  padding: 0.375rem 0.75rem;
-  font-size: 0.875rem;
+  padding: var(--spacing-1) var(--spacing-3);
+  font-size: var(--font-size-sm);
 }
 
 .swatch {
   width: 12px;
   height: 12px;
-  border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--border-radius-full);
+  border: var(--border-width-thin) solid rgba(0, 0, 0, var(--opacity-10));
 }
 
 .text {
-  color: #374151;
+  color: var(--color-text-neutral-muted-default);
 }
 </style>

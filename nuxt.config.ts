@@ -15,6 +15,11 @@ export default defineNuxtConfig({
       pathPrefix: false,
     },
     {
+      path: '~/app/components/ds/field',
+      extensions: ['.vue'],
+      pathPrefix: false,
+    },
+    {
       path: '~/app/components/palette',
       extensions: ['.vue'],
       pathPrefix: false,
@@ -35,7 +40,10 @@ export default defineNuxtConfig({
     dirs: ['app/composables/**'],
   },
 
-  css: ['~/app/assets/styles/global.css'],
+  css: [
+    '~/app/assets/styles/tokens/index.css',  // Load tokens FIRST
+    '~/app/assets/styles/global.css',        // Then global styles
+  ],
 
   vite: {
     css: {
