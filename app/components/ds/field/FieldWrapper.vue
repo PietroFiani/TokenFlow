@@ -1,14 +1,6 @@
 <script setup lang="ts">
 import { computed, useId } from 'vue'
-
-interface FieldWrapperProps {
-  label?: string
-  hint?: string
-  error?: boolean
-  errorMessage?: string
-  required?: boolean
-  showOptional?: boolean
-}
+import type { FieldWrapperProps } from './types'
 
 const props = withDefaults(defineProps<FieldWrapperProps>(), {
   showOptional: false,

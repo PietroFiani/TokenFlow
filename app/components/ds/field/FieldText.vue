@@ -1,20 +1,14 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import type { FieldWrapperProps } from './types'
+import { useFieldWrapperProps } from '~/app/composables/useFieldWrapperProps'
 
-interface FieldTextProps {
+interface FieldTextProps extends FieldWrapperProps {
   modelValue: string
   placeholder?: string
   disabled?: boolean
   type?: 'text' | 'email' | 'password' | 'url' | 'tel'
   prefixText?: string
   suffixText?: string
-  // FieldWrapper props
-  label?: string
-  hint?: string
-  error?: boolean
-  errorMessage?: string
-  required?: boolean
-  showOptional?: boolean
 }
 
 const props = withDefaults(defineProps<FieldTextProps>(), {
@@ -28,24 +22,16 @@ const emit = defineEmits<{
   'focus': []
 }>()
 
-// Wrapper props to pass to FieldWrapper
-const wrapperProps = computed(() => ({
-  label: props.label,
-  hint: props.hint,
-  error: props.error,
-  errorMessage: props.errorMessage,
-  required: props.required,
-  showOptional: props.showOptional,
-}))
+const wrapperProps = useFieldWrapperProps(props)
 </script>
 
 <template>
   <FieldWrapper v-bind="wrapperProps">
     <template #input="{ inputId, ariaDescribedBy }">
       <div :class="[$style.inputContainer, { [$style.error]: error, [$style.disabled]: disabled }]">
-        <span v-if="prefixText || $slots.prefix" :class="$style.prefix">
+        <div v-if="prefixText || $slots.prefix" :class="$style.prefix">
           <slot name="prefix">{{ prefixText }}</slot>
-        </span>
+        </div>
 
         <input
           :id="inputId"
@@ -73,19 +59,24 @@ const wrapperProps = computed(() => ({
 .inputContainer {
   display: flex;
   align-items: center;
-  border: var(--border-width-thin) solid var(--color-border-neutral-base-default);
-  border-radius: var(--border-radius-lg);
+  width: 100%;
+  max-width: 100%;
+  min-width: 200px;
+  border: 1px solid var(--color-border-neutral-base-default);
+  border-radius: 12px;
   background: var(--color-white);
   transition: all var(--transition-duration-fast);
+  box-sizing: border-box;
 }
 
-.inputContainer:hover:not(.disabled):not(.error) {
+.inputContainer:hover:not(.disabled):not(.error):not(:focus-within) {
   border-color: var(--color-border-brand-primary-default);
 }
 
-.inputContainer:focus-within {
-  border: var(--border-width-medium) solid var(--color-border-brand-primary-default);
-  box-shadow: none;
+.inputContainer:focus-within:not(.error) {
+  border-color: var(--color-border-brand-primary-default);
+  /* Simulate 2px border using inset box-shadow to avoid dimension changes */
+  box-shadow: inset 0 0 0 1px var(--color-border-brand-primary-default);
 }
 
 .inputContainer.error {
@@ -93,7 +84,8 @@ const wrapperProps = computed(() => ({
 }
 
 .inputContainer.error:focus-within {
-  border: var(--border-width-thin) solid var(--color-border-intent-error-default);
+  border-color: var(--color-border-intent-error-default);
+  box-shadow: none;
 }
 
 .inputContainer.disabled {
@@ -102,14 +94,19 @@ const wrapperProps = computed(() => ({
 }
 
 .input {
-  flex: 1;
+  flex: 1 1 0%;
   min-width: 0;
-  padding: var(--spacing-3) var(--spacing-4);
-  font: var(--typography-body-sm-default);
+  width: 0;
+  padding: 12px 16px;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
   color: var(--color-text-neutral-base-default);
   border: none;
   background: transparent;
   outline: none;
+  box-sizing: border-box;
 }
 
 .input:disabled {
@@ -120,11 +117,18 @@ const wrapperProps = computed(() => ({
   color: var(--color-text-neutral-subtle-default);
 }
 
+.inputContainer.error .input {
+  color: var(--color-text-intent-error-default);
+}
+
 .prefix,
 .suffix {
+  display: flex;
+  align-items: center;
   padding: 0 var(--spacing-3);
   color: var(--color-text-neutral-muted-default);
-  font-size: var(--font-size-sm);
+  font-size: 14px;
   flex-shrink: 0;
+  box-sizing: border-box;
 }
 </style>

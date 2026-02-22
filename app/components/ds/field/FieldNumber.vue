@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import type { FieldWrapperProps } from './types'
+import { useFieldWrapperProps } from '~/app/composables/useFieldWrapperProps'
 
-interface FieldNumberProps {
+interface FieldNumberProps extends FieldWrapperProps {
   modelValue: number | null
   placeholder?: string
   disabled?: boolean
@@ -9,13 +10,6 @@ interface FieldNumberProps {
   max?: number
   step?: number
   unitText?: string
-  // FieldWrapper props
-  label?: string
-  hint?: string
-  error?: boolean
-  errorMessage?: string
-  required?: boolean
-  showOptional?: boolean
 }
 
 const props = withDefaults(defineProps<FieldNumberProps>(), {
@@ -29,15 +23,7 @@ const emit = defineEmits<{
   'focus': []
 }>()
 
-// Wrapper props to pass to FieldWrapper
-const wrapperProps = computed(() => ({
-  label: props.label,
-  hint: props.hint,
-  error: props.error,
-  errorMessage: props.errorMessage,
-  required: props.required,
-  showOptional: props.showOptional,
-}))
+const wrapperProps = useFieldWrapperProps(props)
 
 function handleInput(e: Event) {
   const value = (e.target as HTMLInputElement).value
@@ -79,19 +65,33 @@ function handleInput(e: Event) {
 .inputContainer {
   display: flex;
   align-items: center;
-  border: var(--border-width-thin) solid var(--color-border-neutral-base-default);
-  border-radius: var(--border-radius-md);
+  width: 100%;
+  max-width: 100%;
+  min-width: 200px;
+  border: 1px solid var(--color-border-neutral-base-default);
+  border-radius: 12px;
   background: var(--color-white);
   transition: all var(--transition-duration-fast);
+  box-sizing: border-box;
 }
 
-.inputContainer:focus-within {
+.inputContainer:hover:not(.disabled):not(.error):not(:focus-within) {
   border-color: var(--color-border-brand-primary-default);
-  box-shadow: var(--shadow-10);
+}
+
+.inputContainer:focus-within:not(.error) {
+  border-color: var(--color-border-brand-primary-default);
+  /* Simulate 2px border using inset box-shadow to avoid dimension changes */
+  box-shadow: inset 0 0 0 1px var(--color-border-brand-primary-default);
 }
 
 .inputContainer.error {
   border-color: var(--color-border-intent-error-default);
+}
+
+.inputContainer.error:focus-within {
+  border-color: var(--color-border-intent-error-default);
+  box-shadow: none;
 }
 
 .inputContainer.disabled {
@@ -100,14 +100,19 @@ function handleInput(e: Event) {
 }
 
 .input {
-  flex: 1;
+  flex: 1 1 0%;
   min-width: 0;
-  padding: var(--spacing-3) var(--spacing-4);
-  font: var(--typography-body-md-default);
+  width: 0;
+  padding: 12px 16px;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
   color: var(--color-text-neutral-base-default);
   border: none;
   background: transparent;
   outline: none;
+  box-sizing: border-box;
 }
 
 .input:disabled {
@@ -118,10 +123,17 @@ function handleInput(e: Event) {
   color: var(--color-text-neutral-subtle-default);
 }
 
+.inputContainer.error .input {
+  color: var(--color-text-intent-error-default);
+}
+
 .unit {
+  display: flex;
+  align-items: center;
   padding: 0 var(--spacing-3);
   color: var(--color-text-neutral-muted-default);
-  font-size: var(--font-size-sm);
+  font-size: 14px;
   flex-shrink: 0;
+  box-sizing: border-box;
 }
 </style>

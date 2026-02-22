@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
+import type { FieldWrapperProps } from './types'
+import { useFieldWrapperProps } from '~/app/composables/useFieldWrapperProps'
 // useDropdown is auto-imported by Nuxt from ~/composables/useDropdown.ts
 
 interface SelectOption {
@@ -8,20 +10,13 @@ interface SelectOption {
   disabled?: boolean
 }
 
-interface FieldSelectProps {
+interface FieldSelectProps extends FieldWrapperProps {
   modelValue: string | number | null
   options: SelectOption[]
   placeholder?: string
   disabled?: boolean
   searchable?: boolean
   clearable?: boolean
-  // FieldWrapper props
-  label?: string
-  hint?: string
-  error?: boolean
-  errorMessage?: string
-  required?: boolean
-  showOptional?: boolean
 }
 
 const props = withDefaults(defineProps<FieldSelectProps>(), {
@@ -60,15 +55,7 @@ const filteredOptions = computed(() => {
   )
 })
 
-// Wrapper props to pass to FieldWrapper
-const wrapperProps = computed(() => ({
-  label: props.label,
-  hint: props.hint,
-  error: props.error,
-  errorMessage: props.errorMessage,
-  required: props.required,
-  showOptional: props.showOptional,
-}))
+const wrapperProps = useFieldWrapperProps(props)
 
 function selectOption(option: SelectOption) {
   if (option.disabled) return
@@ -189,15 +176,21 @@ onBeforeUnmount(() => {
   align-items: center;
   gap: var(--spacing-gap-sm);
   width: 100%;
-  padding: var(--spacing-3) var(--spacing-4);
-  font: var(--typography-body-sm-default);
+  max-width: 100%;
+  min-width: 200px;
+  padding: 12px 16px;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
   color: var(--color-text-neutral-base-default);
   text-align: left;
-  border: var(--border-width-thin) solid var(--color-border-neutral-base-default);
-  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--color-border-neutral-base-default);
+  border-radius: 12px;
   background: var(--color-white);
   cursor: pointer;
   transition: all var(--transition-duration-fast);
+  box-sizing: border-box;
 }
 
 .trigger:hover:not(:disabled):not(.error):not(.open) {
@@ -207,8 +200,9 @@ onBeforeUnmount(() => {
 .trigger:focus,
 .trigger.open {
   outline: none;
-  border: var(--border-width-medium) solid var(--color-border-brand-primary-default);
-  box-shadow: none;
+  border-color: var(--color-border-brand-primary-default);
+  /* Simulate 2px border using inset box-shadow to avoid dimension changes */
+  box-shadow: inset 0 0 0 1px var(--color-border-brand-primary-default);
 }
 
 .trigger.error {
@@ -217,7 +211,12 @@ onBeforeUnmount(() => {
 
 .trigger.error:focus,
 .trigger.error.open {
-  border: var(--border-width-thin) solid var(--color-border-intent-error-default);
+  border-color: var(--color-border-intent-error-default);
+  box-shadow: none;
+}
+
+.trigger.error .value {
+  color: var(--color-text-intent-error-default);
 }
 
 .trigger:disabled {
